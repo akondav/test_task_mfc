@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Система заявок: Изменить заявку{% endblock %}
+
+{% block body %}
+    <div class="container">
+      <br>
+      <div class="row">
+          <div class="col"><h2>Работа с заявкой: {{ query.title }}</h2></div>
+          <div class="col"><a class="btn btn-outline-primary" href="{{ path('query') }}">Список заявок</a></div>
+        </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="container">
+              <div class="card bg-success text-white">
+                  <div class="card-body">
+                      <div>Дата создания: {{ query.datecreate|date("d/m/Y H:i:s") }}</div>
+                      <br>
+                      <div>Список редактирования:</div>
+                      <table class="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Дата редактирования</th>
+                              <th>Присвоен статус</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {% for changequery in changesquery %}
+                            <tr>
+                              <td>{{ changequery.dateChange|date("d/m/Y H:i:s") }}</td>
+                              <td>{{ changequery.oldstatus }}</td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                      </table>
+                      <br>
+                      <div>Заголовок: {{ query.title }}</div>
+                      <br>
+                      <div>Основной текст: {{ query.maintext }}</div>
+                      <br>
+                      <div>Изображение(-я):</div>
+                      <div>
+                        {% for imagequery in imagesquery %}
+                          <img class="img-fluid" src="{{ asset('uploads/mfcfiles/' ~ imagequery.refImage) }}" alt="{{ imagequery.refImage }}" width="200" height="200">
+                          <div><a class="text-white" href="{{ asset('uploads/mfcfiles/' ~ imagequery.refImage) }}"> {{ imagequery.refImage }}</a></div>
+                        {% endfor %}
+                      </div>
+                      <br>
+                      {{ form_start(form) }}
+                      <div class="row">
+                          <div class="col"><label for="status">{{ form_label(form.status) }}</label>
+                          {{ form_widget(form.status) }}
+                          <button type="submit">Сохранить</button></div>
+                      </div>
+                      {{ form_end(form) }}            
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}

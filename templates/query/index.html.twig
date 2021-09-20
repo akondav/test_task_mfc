@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Система заявок{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <br>
+		<div class="row">
+            <div class="col"><h2>Список заявок</h2></div>
+            <div class="col"><a class="btn btn-outline-primary" href="{{ path('create_query') }}">Подать заявку</a></div>
+        </div>
+        <table class="table table-bordered">
+			<thead>
+			  <tr>
+				<th>Дата создания</th>
+				<th>Статус</th>
+				<th>Заголовок</th>
+				<th>Загруженые изображения</th>
+				<th></th>
+			  </tr>
+			</thead>
+			<tbody class="js-table-index">
+					{% include 'query/_table_index.html.twig' %}
+			</tbody>
+		</table>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+    setInterval(function () {
+      $.ajax({
+          method: 'POST',
+          url: "/table-index"
+      }).done(function (data) {
+          $('.js-table-index').html(data);
+      });
+    }, 30000);
+  </script>
+{% endblock %}

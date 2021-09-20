@@ -1,0 +1,17 @@
+{% for query in querys %}
+    {% if query.status.id == 1 and date(query.datecreate) < date('-1hour') %}
+        <tr class="table-danger">
+    {% else %}
+        <tr>
+    {% endif %}
+        <td>{{ query.datecreate|date("d/m/Y H:i:s") }}</td>
+        <td>{{ query.status.status }}</td>
+        <td>{{ query.title }}</td>
+        <td>  
+        {% for image in query.images %}                      
+            <div>{{ image.refImage }}</div>
+        {% endfor %}		
+        </td>
+        <td><div class="text-white bg-white"><a href="{{ path('update_query', {'query': query.id }) }}">Обработать заявку</a></div></td>
+    </tr>
+{% endfor %}
